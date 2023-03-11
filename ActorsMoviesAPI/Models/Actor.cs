@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace ActorsMoviesAPI.Models;
 
@@ -13,7 +14,5 @@ public partial class Actor
 
     public DateTime? BornDate { get; set; }
 
-    public int MovieId { get; set; }
-
-    public virtual Movie Movie { get; set; } = null!;
+    public virtual ICollection<ActorsMovie> ActorsMovies { get; } = new List<ActorsMovie>();
 }

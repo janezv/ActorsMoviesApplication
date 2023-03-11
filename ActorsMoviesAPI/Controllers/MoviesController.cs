@@ -25,7 +25,7 @@ namespace ActorsMoviesAPI.Controllers
         public async Task<ActionResult<IEnumerable<Movie>>> GetMovies()
         {
             return await _context.Movies
-                .Include(m=>m.Actors).ToListAsync();
+                .Include(m=>m.ActorsMovies).ToListAsync();
         }
 
         // GET: api/Movies/5
@@ -33,7 +33,7 @@ namespace ActorsMoviesAPI.Controllers
         public async Task<ActionResult<Movie>> GetMovie(int id)
         {
             var movie = await _context.Movies
-                .Include(m => m.Actors)
+                .Include(m => m.ActorsMovies.Select(c => c.Actor))
                 .FirstOrDefaultAsync(i=>i.MovieId==id);
 
             if (movie == null)

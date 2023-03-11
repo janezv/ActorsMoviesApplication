@@ -17,6 +17,8 @@ public partial class ActorMoviesSrcContext : DbContext
 
     public virtual DbSet<Actor> Actors { get; set; }
 
+    public virtual DbSet<ActorsMovie> ActorsMovies { get; set; }
+
     public virtual DbSet<ImgPath> ImgPaths { get; set; }
 
     public virtual DbSet<Movie> Movies { get; set; }
@@ -29,8 +31,9 @@ public partial class ActorMoviesSrcContext : DbContext
     {
         modelBuilder.Entity<Actor>(entity =>
         {
-            entity.HasKey(e => e.ActorId).HasName("PK__Actors__57B3EA4B4A189815");
+            entity.HasKey(e => e.ActorId).HasName("PK__Actors__57B3EA4BBFD05E82");
 
+            entity.Property(e => e.ActorId).ValueGeneratedNever();
             entity.Property(e => e.BornDate)
                 .HasColumnType("date")
                 .HasColumnName("bornDate");
@@ -40,16 +43,26 @@ public partial class ActorMoviesSrcContext : DbContext
             entity.Property(e => e.LastName)
                 .HasMaxLength(255)
                 .IsUnicode(false);
+        });
 
-            entity.HasOne(d => d.Movie).WithMany(p => p.Actors)
+        modelBuilder.Entity<ActorsMovie>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__ActorsMo__3214EC07D4E81A03");
+
+            entity.HasOne(d => d.Actor).WithMany(p => p.ActorsMovies)
+                .HasForeignKey(d => d.ActorId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__ActorsMov__Actor__498EEC8D");
+
+            entity.HasOne(d => d.Movie).WithMany(p => p.ActorsMovies)
                 .HasForeignKey(d => d.MovieId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Actors__MovieId__1BC821DD");
+                .HasConstraintName("FK__ActorsMov__Movie__489AC854");
         });
 
         modelBuilder.Entity<ImgPath>(entity =>
         {
-            entity.HasKey(e => e.ImgPathId).HasName("PK__ImgPaths__132AA4C76E17D06D");
+            entity.HasKey(e => e.ImgPathId).HasName("PK__ImgPaths__132AA4C7A4D52EC2");
 
             entity.Property(e => e.ImgPath1)
                 .HasMaxLength(500)
@@ -59,12 +72,12 @@ public partial class ActorMoviesSrcContext : DbContext
             entity.HasOne(d => d.Movie).WithMany(p => p.ImgPaths)
                 .HasForeignKey(d => d.MovieId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__ImgPaths__MovieI__1EA48E88");
+                .HasConstraintName("FK__ImgPaths__MovieI__4C6B5938");
         });
 
         modelBuilder.Entity<Movie>(entity =>
         {
-            entity.HasKey(e => e.MovieId).HasName("PK__Movies__4BD2941A110EF1CF");
+            entity.HasKey(e => e.MovieId).HasName("PK__Movies__4BD2941A13C97225");
 
             entity.Property(e => e.MovieId).ValueGeneratedNever();
             entity.Property(e => e.MovieDescription)
