@@ -31,7 +31,7 @@ public partial class ActorMoviesSrcContext : DbContext
     {
         modelBuilder.Entity<Actor>(entity =>
         {
-            entity.HasKey(e => e.ActorId).HasName("PK__Actors__57B3EA4BBFD05E82");
+            entity.HasKey(e => e.ActorId).HasName("PK__Actors__57B3EA4BB3249203");
 
             entity.Property(e => e.ActorId).ValueGeneratedNever();
             entity.Property(e => e.BornDate)
@@ -47,22 +47,22 @@ public partial class ActorMoviesSrcContext : DbContext
 
         modelBuilder.Entity<ActorsMovie>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__ActorsMo__3214EC07D4E81A03");
+            entity.HasKey(sc => new { sc.ActorId, sc.MovieId });
 
-            entity.HasOne(d => d.Actor).WithMany(p => p.ActorsMovies)
+            entity.HasOne(d => d.Actor).WithMany()
                 .HasForeignKey(d => d.ActorId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__ActorsMov__Actor__498EEC8D");
+                .HasConstraintName("FK__ActorsMov__Actor__531856C7");
 
-            entity.HasOne(d => d.Movie).WithMany(p => p.ActorsMovies)
+            entity.HasOne(d => d.Movie).WithMany()
                 .HasForeignKey(d => d.MovieId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__ActorsMov__Movie__489AC854");
+                .HasConstraintName("FK__ActorsMov__Movie__5224328E");
         });
 
         modelBuilder.Entity<ImgPath>(entity =>
         {
-            entity.HasKey(e => e.ImgPathId).HasName("PK__ImgPaths__132AA4C7A4D52EC2");
+            entity.HasKey(e => e.ImgPathId).HasName("PK__ImgPaths__132AA4C739CF2471");
 
             entity.Property(e => e.ImgPath1)
                 .HasMaxLength(500)
@@ -72,12 +72,12 @@ public partial class ActorMoviesSrcContext : DbContext
             entity.HasOne(d => d.Movie).WithMany(p => p.ImgPaths)
                 .HasForeignKey(d => d.MovieId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__ImgPaths__MovieI__4C6B5938");
+                .HasConstraintName("FK__ImgPaths__MovieI__55F4C372");
         });
 
         modelBuilder.Entity<Movie>(entity =>
         {
-            entity.HasKey(e => e.MovieId).HasName("PK__Movies__4BD2941A13C97225");
+            entity.HasKey(e => e.MovieId).HasName("PK__Movies__4BD2941AA74C8CE8");
 
             entity.Property(e => e.MovieId).ValueGeneratedNever();
             entity.Property(e => e.MovieDescription)

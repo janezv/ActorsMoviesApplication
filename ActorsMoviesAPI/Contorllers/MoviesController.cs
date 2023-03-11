@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ActorsMoviesAPI.Models;
 
-namespace ActorsMoviesAPI.Controllers
+namespace ActorsMoviesAPI.Contorllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -24,17 +24,14 @@ namespace ActorsMoviesAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Movie>>> GetMovies()
         {
-            return await _context.Movies
-                .Include(m=>m.ActorsMovies).ToListAsync();
+            return await _context.Movies.ToListAsync();
         }
 
         // GET: api/Movies/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Movie>> GetMovie(int id)
         {
-            var movie = await _context.Movies
-                .Include(m => m.ActorsMovies.Select(c => c.Actor))
-                .FirstOrDefaultAsync(i=>i.MovieId==id);
+            var movie = await _context.Movies.FindAsync(id);
 
             if (movie == null)
             {

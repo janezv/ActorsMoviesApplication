@@ -57,7 +57,7 @@ END
 IF  object_id('dbo.ActorsMovies') is null
 BEGIN
 	CREATE TABLE dbo.ActorsMovies (
-		Id int IDENTITY(1,1) PRIMARY KEY,
+		--Id int IDENTITY(1,1) PRIMARY KEY,
 		MovieId int FOREIGN KEY REFERENCES Movies(MovieId) not null,
 		ActorId int FOREIGN KEY REFERENCES Actors(ActorId) not null,
 	);

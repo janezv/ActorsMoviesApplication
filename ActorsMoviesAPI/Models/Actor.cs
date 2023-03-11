@@ -6,6 +6,7 @@ namespace ActorsMoviesAPI.Models;
 
 public partial class Actor
 {
+    [Key]
     public int ActorId { get; set; }
 
     public string FirstName { get; set; } = null!;
@@ -14,5 +15,10 @@ public partial class Actor
 
     public DateTime? BornDate { get; set; }
 
-    public virtual ICollection<ActorsMovie> ActorsMovies { get; } = new List<ActorsMovie>();
+    public IList<ActorsMovie> ActorsMovies { get; set; }
+
+    public static implicit operator int(Actor v)
+    {
+        throw new NotImplementedException();
+    }
 }

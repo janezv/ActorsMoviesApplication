@@ -6,8 +6,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ActorsMoviesAPI.Models;
+using ActorsMoviesAPI.ViewModels;
 
-namespace ActorsMoviesAPI.Controllers
+namespace ActorsMoviesAPI.Contorllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -22,23 +23,43 @@ namespace ActorsMoviesAPI.Controllers
 
         // GET: api/Actors
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Actor>>> GetActors()
+        public async Task<ActionResult<IEnumerable<Actor>>> GetActors(int page, int pageSize)
         {
-            return await _context.Actors.ToListAsync();
+            // Zaščita pred inexom izven meja
+            int numberOfrow = await _context.Actors.CountAsync();
+            if(pageSize> numberOfrow) pageSize = numberOfrow;
+            if (page + pageSize > numberOfrow) page = 0;
+
+            return await _context.Actors.Skip(page).Take(pageSize).ToListAsync();
         }
+
+  
 
         // GET: api/Actors/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Actor>> GetActor(int id)
+        public async Task<ActionResult<ActorView>> GetActor(int id)
         {
             var actor = await _context.Actors.FindAsync(id);
-
             if (actor == null)
             {
                 return NotFound();
             }
 
-            return actor;
+            ActorView actorView = new ActorView();
+            actorView.FirstName = actor.FirstName;
+            actorView.LastName = actor.LastName;
+            actorView.BornDate = actor.BornDate;
+            actorView.Movies = new List<Movie>();
+            List<int> MoviesId= await _context.ActorsMovies
+                .Where(x=>x.ActorId==id)
+                .Select(x=>x.MovieId).ToListAsync();
+            foreach (var movieId in MoviesId)
+            {
+                Movie movie = await _context.Movies.FindAsync(movieId);
+                actorView.Movies.Add(movie);
+            }
+
+            return actorView;
         }
 
         // PUT: api/Actors/5
@@ -78,7 +99,21 @@ namespace ActorsMoviesAPI.Controllers
         public async Task<ActionResult<Actor>> PostActor(Actor actor)
         {
             _context.Actors.Add(actor);
-            await _context.SaveChangesAsync();
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException)
+            {
+                if (ActorExists(actor.ActorId))
+                {
+                    return Conflict();
+                }
+                else
+                {
+                    throw;
+                }
+            }
 
             return CreatedAtAction("GetActor", new { id = actor.ActorId }, actor);
         }
