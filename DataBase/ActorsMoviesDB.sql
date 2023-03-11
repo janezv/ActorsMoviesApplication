@@ -10,20 +10,29 @@ USE ActorMoviesSRC
 
 
 --------- Deleting  tables ----------------------------
-IF  object_id('dbo.Actors') is not null
+
+IF  object_id('dbo.ActorsMovies') is not null
 BEGIN
-	drop table dbo.Actors;
-END
+	drop table dbo.ActorsMovies;
+end
 
 IF  object_id('dbo.ImgPaths') is not null
 BEGIN
 	drop table dbo.ImgPaths;
 END
 
+IF  object_id('dbo.Actors') is not null
+BEGIN
+	drop table dbo.Actors;
+END
+
 IF  object_id('dbo.Movies') is not null
 BEGIN
 	drop table dbo.Movies;
 end
+
+
+
 
 --------- Creating  tables ----------------------------
 IF  object_id('dbo.Movies') is null
@@ -38,11 +47,19 @@ END
 IF  object_id('dbo.Actors') is null
 BEGIN
 	CREATE TABLE dbo.Actors (
-		ActorId int IDENTITY(1,1) PRIMARY KEY,
+		ActorId int PRIMARY KEY,
 		FirstName varchar(255)NOT NULL,
 		LastName varchar(255) NOT NULL,
-		bornDate date,
-		MovieId int FOREIGN KEY REFERENCES Movies(MovieId) not null
+		bornDate date
+	);
+END
+
+IF  object_id('dbo.ActorsMovies') is null
+BEGIN
+	CREATE TABLE dbo.ActorsMovies (
+		Id int IDENTITY(1,1) PRIMARY KEY,
+		MovieId int FOREIGN KEY REFERENCES Movies(MovieId) not null,
+		ActorId int FOREIGN KEY REFERENCES Actors(ActorId) not null,
 	);
 END
 
@@ -66,14 +83,22 @@ INSERT INTO dbo.Movies VALUES
 
 
 INSERT INTO dbo.Actors VALUES 
-('Name1','LastName1','1990-06-08',1),
-('Name2','LastName2','1995-09-08',2),
-('Name3','LastName3','1980-06-08',2),
-('Name4','LastName4','1973-09-08',3),
-('Name5','LastName5','2000-09-08',3),
-('Name6','LastName6','2004-09-08',4),
-('Name7','LastName7','2005-01-08',4),
-('Name8','LastName8','2002-01-08',4);
+(1,'Name1','LastName1','1990-06-08'),
+(2,'Name2','LastName2','1995-09-08'),
+(3,'Name3','LastName3','1980-06-08'),
+(4,'Name4','LastName4','1973-09-08'),
+(5,'Name5','LastName5','2000-09-08'),
+(6,'Name6','LastName6','2004-09-08'),
+(7,'Name7','LastName7','2005-01-08'),
+(8,'Name8','LastName8','2002-01-08');
+
+INSERT INTO dbo.ActorsMovies VALUES
+(1,1),(1,2),
+(2,2),(2,3),(2,4),
+(3,1),(3,2),(3,3),(3,6),(3,7),(3,8),
+(4,1),(4,2),(4,3),(4,4),(4,5),(4,6),(4,7),(4,8);
+
+
 
 
 
@@ -98,4 +123,5 @@ INSERT INTO dbo.ImgPaths VALUES
 
 select * from dbo.Actors;
 select * from dbo.Movies;
+select * from [dbo].[ActorsMovies]
 select * from dbo.ImgPaths;
