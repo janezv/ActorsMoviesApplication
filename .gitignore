@@ -364,7 +364,6 @@ FodyWeavers.xsd
 
 # Ignore .pdf test
 dotnet_3.pdf
-**/obj
 /ActorsMoviesAPI/obj/
 /ActorsMoviesAPI/bin/
 /ActorsMoviesAPI/bin/Debug/net6.0/ActorsMoviesAPI.pdb
