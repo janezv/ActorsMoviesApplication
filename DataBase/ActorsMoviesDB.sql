@@ -107,21 +107,21 @@ INSERT INTO dbo.ImgPaths VALUES
 ('\Images\Img1.jpg',1),
 ('\Images\Img2.jpg',2),
 ('\Images\Img3.jpg',2),
-('\Images\Img4.jpg',2),
-('\Images\Img5.jpg',2),
-('\Images\Img6.jpg',2),
-('\Images\Img7.jpg',2),
-('\Images\Img8.jpg',2),
-('\Images\Img9.jpg',2),
-('\Images\Img10.jpg',2),
-('\Images\Img11.jpg',2),
-('\Images\Img12.jpg',2),
-('\Images\Img13.jpg',2),
-('\Images\Img14.jpg',2),
-('\Images\Img15.jpg',2);
+('\Images\Img4.jpg',3),
+('\Images\Img5.jpg',3),
+('\Images\Img6.jpg',3),
+('\Images\Img7.jpg',4),
+('\Images\Img8.jpg',4),
+('\Images\Img9.jpg',4),
+('\Images\Img10.jpg',4),
+('\Images\Img11.jpg',4),
+('\Images\Img12.jpg',4),
+('\Images\Img13.jpg',4),
+('\Images\Img14.jpg',4),
+('\Images\Img15.jpg',4);
 
 
-select * from dbo.Actors;
+select * from dbo.Actors where MovieId=1;
 select * from dbo.Movies;
-select * from [dbo].[ActorsMovies]
-select * from dbo.ImgPaths;
+select * from [dbo].[ActorsMovies] where ActorId=4
+select * from dbo.ImgPaths where MovieId=2;

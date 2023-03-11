@@ -46,6 +46,7 @@ namespace ActorsMoviesAPI.Contorllers
             }
 
             ActorView actorView = new ActorView();
+            actorView.ActorId = actor.ActorId;
             actorView.FirstName = actor.FirstName;
             actorView.LastName = actor.LastName;
             actorView.BornDate = actor.BornDate;
