@@ -1,0 +1,17 @@
+
+
+   • V package Managerju namesti pakete:
+Install-package Microsoft.EntityFrameworkCore
+Install-package Microsoft.EntityFrameworkCore.SqlServer
+Install-package Microsoft.EntityFrameworkCore.Tools
+
+• V nugetu poženi scafolder
+Scaffold-DbContext "Data Source=DESKTOP-1TPLI7F\SQLEXPRESS;Initial Catalog=ActorMoviesSRC;Integrated Security=True;TrustServerCertificate=True" -Provider Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models 
+
+Scaffold-DbContext "Data Source=DESKTOP-1TPLI7F\SQLEXPRESS;Initial Catalog=ActorMoviesSRC;Integrated Security=True;TrustServerCertificate=True" -Provider Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models -Tables ActorsMovies -f 
+
+
+Image pull:
+docker run --name sqldb -p 1533:1433 -e 'SA_PASSWORD=mocan2+aSs23' -e ACCEPT_EULA=Y -d mcr.microsoft.com/mssql/server
+Microsoft SQL Server Management Studio:
+127.0.0.1, 1533
