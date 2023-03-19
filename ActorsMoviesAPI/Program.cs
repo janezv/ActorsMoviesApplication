@@ -13,12 +13,18 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<ActorMoviesSrcContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DockerSQLConnection"));
 });
+
+
+
+
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+
+
+// Configure the HTTP request pipeline.F
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

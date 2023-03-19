@@ -10,8 +10,16 @@ Scaffold-DbContext "Data Source=DESKTOP-1TPLI7F\SQLEXPRESS;Initial Catalog=Actor
 
 Scaffold-DbContext "Data Source=DESKTOP-1TPLI7F\SQLEXPRESS;Initial Catalog=ActorMoviesSRC;Integrated Security=True;TrustServerCertificate=True" -Provider Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models -Tables ActorsMovies -f 
 
-
-Image pull:
+------------------------------- Dockerizing -------------------------------------------------------------------------
+	1. MS SQL Image pull:
 docker run --name sqldb -p 1533:1433 -e 'SA_PASSWORD=mocan2+aSs23' -e ACCEPT_EULA=Y -d mcr.microsoft.com/mssql/server
-Microsoft SQL Server Management Studio:
+	2. Microsoft SQL Server Management Studio:
 127.0.0.1, 1533
+
+	1. Kreiraj image iz Dockerfile (UKAZ TAM KJER JE Dockerfile)
+docker build -t web_net_core_api .
+	2. Kreiraj konteiner iz .net core api
+docker run -d -p 32775:80 --name scrAcotrsMovies web_net_core_api
+https://localhost:5002/swagger/index.html
+https://localhost:5002/swagger/index.html
+https://localhost:32775/swagger/index.html
