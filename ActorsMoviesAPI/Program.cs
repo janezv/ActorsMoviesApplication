@@ -13,7 +13,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<ActorMoviesSrcContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DockerSQLConnection"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
 
@@ -22,14 +22,14 @@ builder.Services.AddDbContext<ActorMoviesSrcContext>(options =>
 
 var app = builder.Build();
 
-
+app.UseDeveloperExceptionPage();
 
 // Configure the HTTP request pipeline.F
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+//if (app.Environment.IsDevelopment())
+//{
+app.UseSwagger();
+app.UseSwaggerUI();
+//}
 
 app.UseHttpsRedirection();
 

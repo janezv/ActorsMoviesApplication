@@ -22,7 +22,7 @@ namespace ActorsMoviesAPI.Contorllers
         }
 
         // GET: api/Actors
-        [HttpGet]
+        [HttpGet("{page}/{pageSize}")]
         public async Task<ActionResult<IEnumerable<Actor>>> GetActors(int page, int pageSize)
         {
             // Zaščita pred inexom izven meja
